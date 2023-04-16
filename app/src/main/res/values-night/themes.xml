@@ -3,15 +3,41 @@
     <style name="Theme.ClothingSuggester" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimaryVariant">#DE080D0E</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
+        <item name="colorOnSurface">@color/backgroundNight</item>
+        <item name="colorOnBackground">@color/backgroundNight</item>
+
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+    </style>
 
+    <style name="numberStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal" tools:targetApi="o">24dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="textStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">44dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">serif</item>
+    </style>
+
+    <style name="backgroundStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/backgroundNight</item>
     </style>
 </resources>
