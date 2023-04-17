@@ -1,8 +1,10 @@
 package com.example.clothingsuggester.models
 
+import com.google.gson.annotations.SerializedName
+
 data class WeatherResponse(
     val visibility: Int? = null,
-    val timezone: Int? = null,
+    @SerializedName("timezone") val timeZone: Int,
     val main: Main? = null,
     val clouds: Clouds? = null,
     val sys: Sys? = null,
@@ -16,9 +18,13 @@ data class WeatherResponse(
     val wind: Wind? = null
 )
 
-data class Wind(
-    val deg: Int? = null,
-    val speed: Any? = null
+data class Main(
+    val temp: Any? = null,
+    val tempMin: Any? = null,
+    val humidity: Int? = null,
+    val pressure: Int? = null,
+    val feelsLike: Any? = null,
+    val tempMax: Any? = null
 )
 
 data class WeatherItem(
@@ -26,6 +32,16 @@ data class WeatherItem(
     val description: String? = null,
     val main: String? = null,
     val id: Int? = null
+)
+
+data class Coord(
+    val lon: Any? = null,
+    val lat: Any? = null
+)
+
+data class Wind(
+    val deg: Int? = null,
+    val speed: Any? = null
 )
 
 data class Sys(
@@ -40,17 +56,4 @@ data class Clouds(
     val all: Int? = null
 )
 
-data class Coord(
-    val lon: Any? = null,
-    val lat: Any? = null
-)
-
-data class Main(
-    val temp: Any? = null,
-    val tempMin: Any? = null,
-    val humidity: Int? = null,
-    val pressure: Int? = null,
-    val feelsLike: Any? = null,
-    val tempMax: Any? = null
-)
 

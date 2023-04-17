@@ -10,7 +10,8 @@
         <shape >
             <solid android:color="@color/backgroundlight"/>
             <corners android:radius="30dp"/>
-            <size android:height="32dp"/>
+            <size android:height="32dp"
+                android:width="60dp"/>
 
         </shape>
     </item>

@@ -15,10 +15,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
-        android:text="Happy day ,"
+        android:text="@string/happy_day"
         android:textSize="20sp"
         android:textStyle="italic|bold"
-        app:layout_constraintBottom_toTopOf="@id/weather_data"
+        app:layout_constraintBottom_toTopOf="@id/weather_data_contiener"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.315" />
@@ -38,14 +38,15 @@
         tools:text="cairo" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/weather_data"
+        android:id="@+id/weather_data_contiener"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:layout_marginHorizontal="24dp"
+        android:layout_marginHorizontal="16dp"
         android:background="@drawable/background_weather_data"
         android:paddingHorizontal="8dp"
         android:paddingVertical="16dp"
+        android:elevation="7dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.695"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +75,8 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/humidity__tv"
             app:layout_constraintTop_toBottomOf="@id/cityName_tv"
-            tools:text="20" />
+            tools:text="20"
+            tools:ignore="NotSibling" />
 
         <TextView
             android:id="@+id/humidity__name_tv"
@@ -98,7 +100,8 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tempreture__tv"
             app:layout_constraintTop_toBottomOf="@id/cityName_tv"
-            tools:text="20" />
+            tools:text="20"
+            tools:ignore="NotSibling" />
 
 
         <TextView
@@ -127,16 +130,17 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/images_view_pager"
-        android:layout_width="314dp"
-        android:layout_height="336dp"
+        android:layout_width="398dp"
+        android:layout_height="315dp"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:padding="8dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="@dimen/spacing_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weather_data"
+        app:layout_constraintTop_toBottomOf="@id/weather_data_contiener"
         app:layout_constraintVertical_bias="0.65" />
 
     <androidx.appcompat.widget.SwitchCompat
@@ -155,16 +159,62 @@
         app:track="@drawable/switch_track_selector" />
 
     <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_summer"
         android:layout_width="453dp"
         android:layout_height="239dp"
-        android:layout_marginTop="208dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.392"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/sunny"
         tools:ignore="MissingConstraints" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_winter"
+        android:layout_width="462dp"
+        android:layout_height="227dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.333"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/winter"
+        tools:ignore="MissingConstraints" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_no_internet"
+        android:layout_width="253dp"
+        android:layout_height="239dp"
+        android:visibility="gone"
+        android:layout_marginTop="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.448"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.414"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/no_internet"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/error_text"
+        style="@style/textStyle"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="error" />
 </androidx.constraintlayout.widget.ConstraintLayout>
