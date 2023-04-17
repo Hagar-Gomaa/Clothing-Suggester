@@ -5,4 +5,6 @@
     <string name="pressure">Pressure</string>
     <string name="tempreture">Tempreture</string>
     <string name="happy_day">Happy day ,</string>
+    <string name="percentage">" %"</string>
+    <string name="c">°C</string>
 </resources>

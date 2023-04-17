@@ -221,10 +221,10 @@ class MainActivity : AppCompatActivity() {
         postion = images.indexOf(showList)
 
         with(binding) {
-            tempretureTv.text = tempInCelsius.toInt().toString() + "°C"
+            tempretureTv.text = tempInCelsius.toInt().toString() + getString(R.string.c)
             cityNameTv.text = getString(R.string.in_text) + cityName
             pressureTv.text = pressure
-            humidityTv.text = humidity
+            humidityTv.text = humidity+getString(R.string.percentage)
             humidityNameTv.text = getString(R.string.humidity)
             pressureNameTv.text = getString(R.string.pressure)
             tempretureNameTv.text = getString(R.string.tempreture)
