@@ -7,17 +7,23 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.clothingsuggester.R
 
-class ImagesViewPagerAdapter(val imagesList: List<Int>) :Adapter<ImagesViewPagerAdapter.ImagesViewHolder>(){
+class ImagesViewPagerAdapter(private val images: List<Int>) :Adapter<ImagesViewPagerAdapter.ImagesViewHolder>(){
     class ImagesViewHolder(val binding:ItemCardImageBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImagesViewHolder {
         val binding= ItemCardImageBinding.inflate(LayoutInflater.from(parent.context),parent,false)
    return ImagesViewHolder(binding) }
 
-    override fun getItemCount(): Int =imagesList.size
-
-    override fun onBindViewHolder(holder: ImagesViewHolder, position: Int) {
-      var currentItem =imagesList[position]
+    override fun getItemCount(): Int =images.size
+    private fun bind(
+        position: Int,
+        holder: ImagesViewHolder
+    ) {
+        val currentItem = images[position]
         holder.binding.image.setImageResource(currentItem)
     }
+    override fun onBindViewHolder(holder: ImagesViewHolder, position: Int) {
+        bind(position, holder)
+    }
+
 }

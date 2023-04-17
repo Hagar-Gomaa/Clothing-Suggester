@@ -2,6 +2,7 @@ package com.example.clothingsuggester.ui
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -14,42 +15,61 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isVisible
 import androidx.viewpager2.widget.CompositePageTransformer
 import com.example.clothingsuggester.R
 import com.example.clothingsuggester.databinding.ActivityMainBinding
 import com.example.clothingsuggester.models.WeatherResponse
+import com.example.clothingsuggester.utils.Clothing
+import com.example.clothingsuggester.utils.Connection
+import com.example.clothingsuggester.utils.Constants
+import com.example.clothingsuggester.utils.Temperature
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.gson.Gson
 import okhttp3.*
+import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 import java.lang.Math.abs
 
 class MainActivity : AppCompatActivity() {
-    lateinit var errorMessage: String
-    lateinit var binding: ActivityMainBinding
-    private lateinit var imagesList: List<List<Int>>
+    private lateinit var errorMessage: String
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var images: List<List<Int>>
     private lateinit var adapter: ImagesViewPagerAdapter
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    lateinit var cityName: String
-    lateinit var temInCelsius: String
+    private lateinit var cityName: String
+    private lateinit var tempInCelsius: String
     lateinit var pressure: String
-    lateinit var humidity: String
-    var showList: List<Int>? = null
-    var postion: Int? = null
-    var sharedPreferences: SharedPreferences? = null
+    private lateinit var humidity: String
+    private var showList: List<Int>? = null
+    private var postion: Int? = null
+
+    private var sharedPreferences: SharedPreferences? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        getMyLocation()
-        binding.switchTheme.isChecked = lightState
-        onClickSwitchTheme()
+
+        val connect = Connection.isOnline(this)
+        if (connect) {
+            getMyLocation()
+            binding.switchTheme.isChecked = LIGHT_STATE
+            onClickSwitchTheme()
+        } else {
+            binding.weatherDataContiener.isVisible = false
+            binding.switchTheme.isVisible = false
+            binding.lottieSummer.isVisible = false
+            binding.lottieNoInternet.isVisible = true
+
+
+        }
     }
 
     private fun getMyLocation() {
@@ -134,33 +154,45 @@ class MainActivity : AppCompatActivity() {
             getMyLocation()
         } else {
             Toast.makeText(applicationContext, "Permission Denied", Toast.LENGTH_SHORT).show()
+            val alertDialog = AlertDialog.Builder(this)
+                .setMessage("You must allow location permission")
+                .setPositiveButton("OK") { dialog, which ->
+                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    startActivity(intent)
+                }
+                .create().show()
         }
     }
 
     private fun makeRequestWithOkHttp(lat: Double, long: Double) {
-        val url =
-            "https://api.openweathermap.org/data/2.5/weather?lon=$long&lat=$lat&APPID=1362c52c7f3574e2cff67de3a55cc307"
-
+        val url = "${Constants.BASE_URL}?lon=$long&lat=$lat&APPID=${Constants.API_KEY}"
         val request = Request.Builder()
             .url(url)
             .build()
 
-        val client = OkHttpClient()
+        val logInterceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BASIC
+        }
+        val client = OkHttpClient.Builder().apply {
+            addInterceptor(logInterceptor)
+        }.build()
+
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e("error", e.message.toString())
                 errorMessage = e.message.toString()
-                binding.tempretureTv.text = errorMessage
+                binding.errorText.text = errorMessage
+                binding.errorText.isVisible = true
 
             }
 
-            //.values?.temperature
             override fun onResponse(call: Call, response: Response) {
                 val gson = Gson()
                 val responseFromJson =
                     gson.fromJson(response.body!!.string(), WeatherResponse::class.java)
                 val temInKelvin = responseFromJson.main?.temp!!.toString()
-                temInCelsius = convertToCelsius(temInKelvin.toFloat()).toInt().toString()
+                tempInCelsius =
+                    Temperature.convertToCelsius(temInKelvin.toFloat()).toInt().toString()
                 cityName = responseFromJson.name!!.toString()
                 pressure = responseFromJson.main.pressure!!.toString()
                 humidity = responseFromJson.main.humidity!!.toString()
@@ -168,62 +200,45 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     bindData()
                 }
-                Log.e("sss", temInCelsius)
+                Log.e("temp", tempInCelsius)
             }
         }
         )
     }
 
+    @SuppressLint("SetTextI18n")
     private fun bindData() {
-        if ((temInCelsius.toInt()) > 35) {
-            imagesList = listOf(
-                listOf(
-                    R.drawable.sweatshirt_green,
-                    R.drawable.skirt_
-                ),
-                listOf(
-                    R.drawable.sweatshirt_gray,
-                    R.drawable.skirtr
-                )
-            )
-        } else {
-            imagesList = listOf(
-                listOf(
-                    R.drawable.skirtr,
-                    R.drawable.topthree
-                ),
-                listOf(
-                    R.drawable.skirt_,
-                    R.drawable.topfive
-                ),
-                listOf(
-                    R.drawable.skiry__,
-                    R.drawable.toptwo
-                )
-
-            )
+        images = if ((tempInCelsius.toInt()) > 35) Clothing.getSummerClothing()
+        else {
+            if (tempInCelsius.toInt() < 0) {
+                Clothing.getWinterClothing()
+                binding.lottieSummer.isVisible = false
+                binding.lottieWinter.isVisible = true
+            }
+            Clothing.getWinterClothing()
         }
-        binding.tempretureTv.text = temInCelsius.toInt().toString() + "°C"
-        binding.cityNameTv.text = "in " + cityName
-        binding.pressureTv.text = pressure
-        binding.humidityTv.text = humidity
-        binding.humidityNameTv.text = "Humidity"
-        binding.pressureNameTv.text = "Pressure"
-        binding.tempretureNameTv.text = "Tempreture"
+        showList = images.random()
+        postion = images.indexOf(showList)
 
-
-        showList = imagesList.random()
-        postion = imagesList.indexOf(showList)
-        checkLast()
-        adapter = ImagesViewPagerAdapter(showList!!)
-        binding.imagesViewPager.adapter = adapter
-        binding.imagesViewPager.offscreenPageLimit = 3
-        setUpTransformer()
+        with(binding) {
+            tempretureTv.text = tempInCelsius.toInt().toString() + "°C"
+            cityNameTv.text = getString(R.string.in_text) + cityName
+            pressureTv.text = pressure
+            humidityTv.text = humidity
+            humidityNameTv.text = getString(R.string.humidity)
+            pressureNameTv.text = getString(R.string.pressure)
+            tempretureNameTv.text = getString(R.string.tempreture)
+            checkLastItem()
+            adapter = ImagesViewPagerAdapter(showList!!)
+            imagesViewPager.adapter = adapter
+            imagesViewPager.offscreenPageLimit = 3
+            setUpTransformer()
+        }
         sharedPreferences?.edit()?.putInt("lastposition", postion!!)?.apply()
 
     }
 
-    fun checkLast() {
+    private fun checkLastItem() {
         if (sharedPreferences!!.contains("lastposition") && sharedPreferences?.getInt(
                 "lastposition",
                 0
@@ -238,18 +253,9 @@ class MainActivity : AppCompatActivity() {
         val transformer = CompositePageTransformer()
         transformer.addTransformer { page, position ->
             val r = 1 - abs(position)
-            page.scaleY = 0.85f + r * 0.5f
+            page.scaleY = 0.85f + r * 0.14f
         }
         binding.imagesViewPager.setPageTransformer(transformer)
-    }
-
-    fun convertToCelsius(tem: Float): Float {
-        return tem - 273.15f
-    }
-
-    companion object {
-        private const val REQUEST_LOCATION_PERMISSION = 1
-        var lightState = true
     }
 
     private fun onClickSwitchTheme() {
@@ -257,7 +263,7 @@ class MainActivity : AppCompatActivity() {
             if (isCurrentUiDarkTheme()) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             else
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            lightState = !lightState
+            LIGHT_STATE = !LIGHT_STATE
         }
 
     }
@@ -265,5 +271,8 @@ class MainActivity : AppCompatActivity() {
     private fun isCurrentUiDarkTheme() =
         AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
 
-
+    companion object {
+        private const val REQUEST_LOCATION_PERMISSION = 1
+        private var LIGHT_STATE = true
+    }
 }

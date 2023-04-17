@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Clothing Suggester</string>
+    <string name="in_text">"in "</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="tempreture">Tempreture</string>
+    <string name="happy_day">Happy day ,</string>
 </resources>
