@@ -39,11 +39,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/weather_data"
-        android:layout_width="388dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="24dp"
         android:background="@drawable/background_weather_data"
-        android:padding="8dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.695"
         app:layout_constraintStart_toStartOf="parent"
@@ -153,9 +155,9 @@
         app:track="@drawable/switch_track_selector" />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="406dp"
-        android:layout_height="279dp"
-        android:layout_marginTop="200dp"
+        android:layout_width="453dp"
+        android:layout_height="239dp"
+        android:layout_marginTop="208dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
