@@ -2,139 +2,128 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/backgroundStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DE94EEFA"
     tools:context=".ui.MainActivity">
 
     <TextView
         android:id="@+id/wellcom_tv"
+        style="@style/textStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
-        android:fontFamily="serif"
-        android:text="Happy day in,"
-        android:textColor="@color/black"
+        android:text="Happy day ,"
         android:textSize="20sp"
         android:textStyle="italic|bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <TextView
-        android:id="@+id/cityName_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="serif"
-        tools:text="cairo"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="italic|bold"
-        app:layout_constraintTop_toBottomOf="@id/wellcom_tv"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/pressure__name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
-        tools:text="Pressure"
-        android:fontFamily="serif"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/humidity__name_tv"
-        app:layout_constraintTop_toBottomOf="@id/pressure__tv" />
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="386dp"
-        android:layout_height="570dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.896"
+        app:layout_constraintBottom_toTopOf="@id/weather_data"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/sunny"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintVertical_bias="0.315" />
 
     <TextView
-        android:id="@+id/pressure__tv"
+        android:id="@+id/cityName_tv"
+        style="@style/textStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="18sp"
+        android:textStyle="italic|bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/wellcom_tv"
+        tools:text="cairo" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/weather_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:textColor="@color/black"
-        android:textSize="30sp"
+        android:layout_marginHorizontal="24dp"
+        android:background="@drawable/background_weather_data"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/humidity__tv"
-        app:layout_constraintTop_toBottomOf="@id/cityName_tv"
-        tools:text="20" />
-
-    <TextView
-        android:id="@+id/humidity__name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Humidity"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:fontFamily="serif"
-        app:layout_constraintEnd_toStartOf="@+id/pressure__name_tv"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tempreture_name_tv"
-        app:layout_constraintTop_toBottomOf="@id/humidity__tv" />
-
-    <TextView
-        android:id="@+id/humidity__tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="24dp"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/pressure__tv"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tempreture__tv"
-        app:layout_constraintTop_toBottomOf="@id/cityName_tv"
-        tools:text="20" />
-
-
-    <TextView
-        android:id="@+id/tempreture_name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:fontFamily="serif"
-        app:layout_constraintEnd_toStartOf="@+id/humidity__name_tv"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toEndOf="@+id/images_view_pager"
+        app:layout_constraintHorizontal_bias="0.695"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tempreture__tv"
-        tools:text="Tempreture" />
+        app:layout_constraintTop_toBottomOf="@id/cityName_tv">
 
-    <TextView
-        android:id="@+id/tempreture__tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="24dp"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/humidity__tv"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cityName_tv"
-        tools:text="20" />
+        <TextView
+            android:id="@+id/pressure__name_tv"
+            style="@style/textStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/humidity__name_tv"
+            app:layout_constraintTop_toBottomOf="@id/pressure__tv"
+            tools:text="Pressure" />
+
+
+        <TextView
+            android:id="@+id/pressure__tv"
+            style="@style/numberStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/humidity__tv"
+            app:layout_constraintTop_toBottomOf="@id/cityName_tv"
+            tools:text="20" />
+
+        <TextView
+            android:id="@+id/humidity__name_tv"
+            style="@style/textStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/pressure__name_tv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tempreture_name_tv"
+            app:layout_constraintTop_toBottomOf="@id/humidity__tv"
+            tools:text="Humidity" />
+
+        <TextView
+            android:id="@+id/humidity__tv"
+            style="@style/numberStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintEnd_toStartOf="@+id/pressure__tv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tempreture__tv"
+            app:layout_constraintTop_toBottomOf="@id/cityName_tv"
+            tools:text="20" />
+
+
+        <TextView
+            android:id="@+id/tempreture_name_tv"
+            style="@style/textStyle"
+            app:layout_constraintEnd_toStartOf="@+id/humidity__name_tv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tempreture__tv"
+            tools:text="Tempreture" />
+
+        <TextView
+            android:id="@+id/tempreture__tv"
+            style="@style/numberStyle"
+            app:layout_constraintEnd_toStartOf="@+id/humidity__tv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cityName_tv"
+            tools:text="20"
+            tools:ignore="NotSibling" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/images_view_pager"
@@ -147,7 +136,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/humidity__name_tv"
+        app:layout_constraintTop_toBottomOf="@id/weather_data"
         app:layout_constraintVertical_bias="0.65" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:checked="true"
+        android:padding="@dimen/spacing_tiny"
+        android:thumb="@drawable/switch_thumb_selector"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.961"
+        app:layout_constraintStart_toEndOf="@id/wellcom_tv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:track="@drawable/switch_track_selector" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="453dp"
+        android:layout_height="239dp"
+        android:layout_marginTop="208dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/sunny"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
