@@ -43,12 +43,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: ImagesViewPagerAdapter
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var cityName: String
+    private lateinit var maxDegree: String
     private lateinit var tempInCelsius: String
     lateinit var pressure: String
     private lateinit var humidity: String
     private var showList: List<Int>? = null
     private var postion: Int? = null
-
+    private var connect: Boolean? = null
     private var sharedPreferences: SharedPreferences? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,20 +58,11 @@ class MainActivity : AppCompatActivity() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
-        val connect = Connection.isOnline(this)
-        if (connect) {
-            getMyLocation()
-            binding.switchTheme.isChecked = LIGHT_STATE
-            onClickSwitchTheme()
-        } else {
-            binding.weatherDataContiener.isVisible = false
-            binding.switchTheme.isVisible = false
-            binding.lottieSummer.isVisible = false
-            binding.lottieNoInternet.isVisible = true
-
-
-        }
+        connect = Connection.isOnline(this)
+        checkInternet()
+        callBacks()
     }
+
 
     private fun getMyLocation() {
         if (checkPermission()) {
@@ -196,7 +188,7 @@ class MainActivity : AppCompatActivity() {
                 cityName = responseFromJson.name!!.toString()
                 pressure = responseFromJson.main.pressure!!.toString()
                 humidity = responseFromJson.main.humidity!!.toString()
-
+                maxDegree = responseFromJson.main.tempMax.toString()
                 runOnUiThread {
                     bindData()
                 }
@@ -208,26 +200,31 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun bindData() {
-        images = if ((tempInCelsius.toInt()) > 35) Clothing.getSummerClothing()
-        else {
+        if ((tempInCelsius.toInt()) > 35) {
+            images = Clothing.getSummerClothing()
+        } else {
             if (tempInCelsius.toInt() < 0) {
-                Clothing.getWinterClothing()
+                images = Clothing.getWinterClothing()
                 binding.lottieSummer.isVisible = false
                 binding.lottieWinter.isVisible = true
             }
-            Clothing.getWinterClothing()
+            images = Clothing.getWinterClothing()
+            binding.lottieSummer.isVisible = true
+            binding.lottieWinter.isVisible = false
         }
         showList = images.random()
         postion = images.indexOf(showList)
 
         with(binding) {
-            tempretureTv.text = tempInCelsius.toInt().toString() + getString(R.string.c)
+            celiciusNumberTv.text = tempInCelsius.toInt().toString()
+            celiciusTv.text = getString(R.string.c)
             cityNameTv.text = getString(R.string.in_text) + cityName
             pressureTv.text = pressure
-            humidityTv.text = humidity+getString(R.string.percentage)
+            humidityTv.text = humidity + getString(R.string.percentage)
             humidityNameTv.text = getString(R.string.humidity)
             pressureNameTv.text = getString(R.string.pressure)
-            tempretureNameTv.text = getString(R.string.tempreture)
+            maxDegreeNameTv.text = getString(R.string.max_degree)
+            maxDegreeTv.text = maxDegree + getString(R.string.c)
             checkLastItem()
             adapter = ImagesViewPagerAdapter(showList!!)
             imagesViewPager.adapter = adapter
@@ -256,6 +253,40 @@ class MainActivity : AppCompatActivity() {
             page.scaleY = 0.85f + r * 0.14f
         }
         binding.imagesViewPager.setPageTransformer(transformer)
+    }
+
+    private fun callBacks() {
+        onClickTryAgain()
+        onClickSwitchTheme()
+
+    }
+
+    private fun onClickTryAgain() {
+        binding.tryAgainBtn.setOnClickListener {
+            checkInternet()
+        }
+    }
+
+    private fun checkInternet() {
+        connect = Connection.isOnline(this)
+        if (connect!!) {
+            binding.switchTheme.isChecked = LIGHT_STATE
+            binding.lottieNoInternet.isVisible = false
+            binding.tryAgainBtn.isVisible = false
+            binding.weatherDataContiener.isVisible = true
+            binding.switchTheme.isVisible = true
+            binding.recommendedTv.isVisible = true
+            getMyLocation()
+            callBacks()
+        } else {
+            binding.weatherDataContiener.isVisible = false
+            binding.switchTheme.isVisible = false
+            binding.lottieSummer.isVisible = false
+            binding.lottieNoInternet.isVisible = true
+            binding.tryAgainBtn.isVisible = true
+            binding.recommendedTv.isVisible = false
+
+        }
     }
 
     private fun onClickSwitchTheme() {

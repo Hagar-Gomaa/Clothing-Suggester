@@ -5,14 +5,13 @@
         android:bottom="@dimen/spacing_tiny"
         android:start="@dimen/spacing_tiny"
         android:end="@dimen/spacing_tiny"
-        android:gravity="center_vertical|fill_horizontal"
+        android:gravity="center_horizontal|fill_vertical"
         >
         <shape >
             <solid android:color="@color/backgroundlight"/>
-            <corners android:radius="30dp"/>
-            <size android:height="32dp"
-                android:width="60dp"/>
-
+            <corners android:radius="28dp"/>
+            <size android:height="26dp"
+                android:width="50dp"/>
         </shape>
     </item>
 </layer-list>
