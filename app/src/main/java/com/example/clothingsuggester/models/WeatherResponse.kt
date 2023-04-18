@@ -41,7 +41,7 @@ data class Coord(
 
 data class Wind(
     val deg: Int? = null,
-    val speed: Int? = null
+    val speed: Double? = null
 )
 
 data class Sys(

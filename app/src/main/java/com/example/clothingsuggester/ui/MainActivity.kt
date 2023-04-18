@@ -174,8 +174,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 val gson = Gson()
-                val responseFromJson =
-                    gson.fromJson(response.body!!.string(), WeatherResponse::class.java)
+                val responseFromJson = gson.fromJson(response.body!!.string(), WeatherResponse::class.java)
                 val temInKelvin = responseFromJson.main?.temp!!.toString()
                 tempInCelsius =
                     Temperature.convertToCelsius(temInKelvin.toFloat()).toInt().toString()
