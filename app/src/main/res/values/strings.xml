@@ -3,8 +3,10 @@
     <string name="in_text">"in "</string>
     <string name="humidity">Humidity</string>
     <string name="pressure">Pressure</string>
-    <string name="tempreture">Tempreture</string>
+    <string name="max_degree">max Degree</string>
     <string name="happy_day">Happy day ,</string>
     <string name="percentage">" %"</string>
     <string name="c">°C</string>
+    <string name="try_again">try again</string>
+    <string name="recommended_just_4_you">Just recommended 4 you</string>
 </resources>
