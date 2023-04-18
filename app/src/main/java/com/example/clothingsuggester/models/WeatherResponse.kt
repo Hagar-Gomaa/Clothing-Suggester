@@ -19,12 +19,12 @@ data class WeatherResponse(
 )
 
 data class Main(
-    val temp: Any? = null,
-    val tempMin: Any? = null,
+    val temp: Double? = null,
+    val tempMin: Double? = null,
     val humidity: Int? = null,
     val pressure: Int? = null,
-    val feelsLike: Any? = null,
-    val tempMax: Any? = null
+    val feelsLike: Double? = null,
+    val tempMax: Double? = null
 )
 
 data class WeatherItem(
@@ -41,7 +41,7 @@ data class Coord(
 
 data class Wind(
     val deg: Int? = null,
-    val speed: Any? = null
+    val speed: Int? = null
 )
 
 data class Sys(

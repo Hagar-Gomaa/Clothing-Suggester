@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cityName: String
     private lateinit var maxDegree: String
     private lateinit var tempInCelsius: String
-    lateinit var pressure: String
+    private lateinit var pressure: String
     private lateinit var humidity: String
     private var showList: List<Int>? = null
     private var postion: Int? = null
@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity() {
         checkInternet()
         callBacks()
     }
-
 
     private fun getMyLocation() {
         if (checkPermission()) {
@@ -100,7 +99,6 @@ class MainActivity : AppCompatActivity() {
             requestPermissions()
         }
     }
-
     private fun isLocationEnabled(): Boolean {
         val locationManager: LocationManager =
             getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -108,7 +106,6 @@ class MainActivity : AppCompatActivity() {
             NETWORK_PROVIDER
         )
     }
-
     private fun requestPermissions() {
         ActivityCompat.requestPermissions(
             this, arrayOf(
@@ -118,7 +115,6 @@ class MainActivity : AppCompatActivity() {
             REQUEST_LOCATION_PERMISSION
         )
     }
-
     private fun checkPermission(): Boolean {
         if (
             ActivityCompat.checkSelfPermission(
@@ -134,7 +130,6 @@ class MainActivity : AppCompatActivity() {
         }
         return false
     }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -155,7 +150,6 @@ class MainActivity : AppCompatActivity() {
                 .create().show()
         }
     }
-
     private fun makeRequestWithOkHttp(lat: Double, long: Double) {
         val url = "${Constants.BASE_URL}?lon=$long&lat=$lat&APPID=${Constants.API_KEY}"
         val request = Request.Builder()
@@ -197,7 +191,6 @@ class MainActivity : AppCompatActivity() {
         }
         )
     }
-
     @SuppressLint("SetTextI18n")
     private fun bindData() {
         if ((tempInCelsius.toInt()) > 35) {
@@ -234,7 +227,6 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences?.edit()?.putInt("lastposition", postion!!)?.apply()
 
     }
-
     private fun checkLastItem() {
         if (sharedPreferences!!.contains("lastposition") && sharedPreferences?.getInt(
                 "lastposition",
@@ -245,7 +237,6 @@ class MainActivity : AppCompatActivity() {
             return
         }
     }
-
     private fun setUpTransformer() {
         val transformer = CompositePageTransformer()
         transformer.addTransformer { page, position ->
@@ -254,19 +245,16 @@ class MainActivity : AppCompatActivity() {
         }
         binding.imagesViewPager.setPageTransformer(transformer)
     }
-
     private fun callBacks() {
         onClickTryAgain()
         onClickSwitchTheme()
 
     }
-
     private fun onClickTryAgain() {
         binding.tryAgainBtn.setOnClickListener {
             checkInternet()
         }
     }
-
     private fun checkInternet() {
         connect = Connection.isOnline(this)
         if (connect!!) {
@@ -288,7 +276,6 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
-
     private fun onClickSwitchTheme() {
         binding.switchTheme.setOnCheckedChangeListener { _, _ ->
             if (isCurrentUiDarkTheme()) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -298,10 +285,8 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
     private fun isCurrentUiDarkTheme() =
         AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
-
     companion object {
         private const val REQUEST_LOCATION_PERMISSION = 1
         private var LIGHT_STATE = true
